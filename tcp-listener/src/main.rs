@@ -9,12 +9,14 @@ fn main() {
         match stream {
             Ok(stream) => {
                 let stream_read = stream.try_clone().unwrap();
-                thread::spawn(move || {
+                thread::spawn(move || loop {
                     tcp_share::read_from_stream(&stream_read, |message| print!("{}", message))
                 });
 
                 let stream_write = stream.try_clone().unwrap();
-                thread::spawn(move || tcp_share::write_to_stream(&stream_write, read_stdin));
+                thread::spawn(move || loop {
+                    tcp_share::write_to_stream(&stream_write, read_stdin)
+                });
             }
             Err(err) => panic_any(err),
         }
