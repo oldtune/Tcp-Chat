@@ -1,0 +1,6 @@
+[workspace]
+members = [
+"tcp-listener",
+"tcp-share",
+"tcp-client"
+]
